@@ -1,0 +1,22 @@
+public class ArtistsAlbumsBatch implements Database.Batchable<sObject>, Database.Stateful {
+    
+    
+    public Database.QueryLocator start(Database.BatchableContext bc) {
+        return Database.getQueryLocator('SELECT ID, Number_of_Albums__c FROM Artist__c');
+    }
+    public void execute(Database.BatchableContext bc, List<Artist__c> scope){
+        Map<Id, Integer> artIDtoNumOfAlbmsMap = new Map<Id, Integer> ();
+        for (AggregateResult aggRes : [SELECT COUNT(Id) numAlbms, Artist__c artID FROM Album__c WHERE Artist__c IN :scope GROUP BY Artist__c]) {
+            Id artId = (Id) aggRes.get('artID');
+            Integer numAlbms = (Integer) aggRes.get('numAlbms');
+            artIDtoNumOfAlbmsMap.put(artId, numAlbms);
+        }
+        for (Artist__c art: scope) {
+            art.Number_of_Albums__c = artIDtoNumOfAlbmsMap.get(art.Id);
+            
+        }  
+        update scope;
+    }
+    public void finish(Database.BatchableContext bc){
+    }
+}
