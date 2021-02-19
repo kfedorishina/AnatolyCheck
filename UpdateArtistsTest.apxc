@@ -1,0 +1,21 @@
+@isTest
+public class UpdateArtistsTest {
+    @isTest static void updateArtTest () {
+        Record_Label__c rLabel_0 = TestDataFactory.createRecLabel('Rec Label 0');
+        Artist__c art_0 = TestDataFactory.createArtist(rLabel_0.Id, 'Artist 0');
+        Record_Label__c rLabel_1 = TestDataFactory.createRecLabel('Rec Label 1');
+        Artist__c art_1 = TestDataFactory.createArtist(rLabel_1.Id, 'Artist 1');
+        
+        List<Artist__c> artists = [SELECT Id FROM Artist__c WHERE Name = 'Artist 1'];
+        Id labelId = [SELECT Id FROM Record_Label__c WHERE Name = 'Rec Label 0'][0].Id;
+        UpdateArtists updateJob = new UpdateArtists(artists, labelId);
+        
+        Test.startTest();
+        System.enqueueJob(updateJob);
+        Test.stopTest();
+        
+        System.assertEquals(rLabel_0.Id, [SELECT Id, Record_Label__c FROM Artist__c WHERE Name = 'Artist 1'][0].Record_Label__c);
+        
+    }
+
+}
