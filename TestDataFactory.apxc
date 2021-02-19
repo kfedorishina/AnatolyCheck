@@ -1,0 +1,26 @@
+@isTest
+public class TestDataFactory {
+    public static Record_Label__c createRecLabel (String rLabelName) {
+        Record_Label__c rLabel = new Record_Label__c ();
+        rLabel.Name = rLabelName;
+        insert rLabel;
+        return rLabel;
+    }
+    
+    public static Artist__c createArtist (Id rLabelID, String artName) {
+        Artist__c art = new Artist__c ();
+        art.Name = artName;
+        art.Record_Label__c = rLabelID;
+        insert art;
+        return art;
+    }
+    
+    public static Album__c createAlbum (Id artID, String albmName) {
+        Album__c albm = new Album__c ();
+        albm.Name = albmName;
+        albm.Artist__c = artID;
+        insert albm;
+        return albm;
+    }
+
+}
