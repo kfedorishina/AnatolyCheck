@@ -13,7 +13,7 @@ public class ArtistsAlbumsBatch implements Database.Batchable<sObject>, Database
         }
         for (Artist__c art: scope) {
             
-            If(artIDtoNumOfAlbmsMap.containsKey(Id) == TRUE){
+            If(artIDtoNumOfAlbmsMap.containsKey(art.Id) == TRUE){
                 art.Number_of_Albums__c = artIDtoNumOfAlbmsMap.get(art.Id);
             } else {
                 art.Number_of_Albums__c = 0;
