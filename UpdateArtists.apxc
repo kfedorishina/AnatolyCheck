@@ -1,0 +1,16 @@
+public class UpdateArtists implements Queueable {
+    private List<Artist__c> artists;
+    private ID recordLabelID;
+    
+    public UpdateArtists(List<Artist__c> records, ID id) {
+        this.artists = records;
+        this.recordLabelID = id;
+    }
+    public void execute(QueueableContext context) {
+        for (Artist__c artist : this.artists) {
+          artist.Record_Label__c = recordLabelID;
+         
+        }
+        update artists;
+    }
+}
