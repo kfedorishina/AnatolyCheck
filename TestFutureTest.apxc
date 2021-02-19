@@ -1,0 +1,16 @@
+@isTest
+public class TestFutureTest {
+    @isTest static void countAlbums () {
+        Record_Label__c rLabel = TestDataFactory.createRecLabel('testLabel 1');
+        
+        Artist__c art = TestDataFactory.createArtist(rLabel.Id,'test Artist 1');
+        
+        Album__c albm = TestDataFactory.createAlbum(art.Id, 'test Album 1');
+        
+        Set<Id> artIDSet = new Set<Id> ();
+        artIDSet.add(art.Id);
+        
+        TestFuture.countAlbums (artIDSet);
+    }
+
+}
