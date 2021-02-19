@@ -1,0 +1,15 @@
+public class TestFuture 
+{
+  @future
+  public static void countAlbums(Set<id> setId) 
+  {
+      List<Artist__c> artistList = [SELECT Id,Number_of_Albums__c , (SELECT Id FROM Albums__r ) FROM Artist__c WHERE Id IN :setId ];
+      for( Artist__c art : artistList ) {
+      
+          List<Album__c> albumList = art.Albums__r ;
+          
+          art.Number_of_Albums__c = albumList.size();
+      }
+      update artistList;
+  }
+}
